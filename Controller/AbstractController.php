@@ -9,6 +9,14 @@ abstract class AbstractController
     const HEADER_DESCRIPTION_KEY = 'description';
     const FLASH_MESSAGES_KEY = 'flashMessages';
 
+    const LANGUAGE_SK = 'sk_SK';
+    const LANGUAGE_EN = 'en_US';
+
+    protected static $languageMapping = [
+        'sk' => self::LANGUAGE_SK,
+        'en' => self::LANGUAGE_EN,
+    ];
+
     protected $routeParams = [];
 
     protected $data = [];
@@ -25,7 +33,7 @@ abstract class AbstractController
 
     protected $layout = 'default';
     
-    protected $notFoundRoute = '404';
+    protected $notFoundRoute = 'not-found';
 
     public function __construct(array $params){
         $this->setRouteParams($params);
