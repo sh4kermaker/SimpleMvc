@@ -1,0 +1,16 @@
+{
+  "name": "sh4kermaker/SimpleMvc",
+  "description": "SimpleMvc",
+  "authors": [
+    {
+      "name": "Martin Panik",
+      "email": "martin.w.panik@gmail.com"
+    }
+  ],
+  "require": {},
+  "autoload": {
+    "psr-0": {
+      "SimpleMvc": "src/"
+    }
+  }
+}
