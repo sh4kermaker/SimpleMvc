@@ -32,8 +32,10 @@ abstract class AbstractController
     ];
 
     protected $layout = 'default';
-    
+
     protected $notFoundRoute = 'not-found';
+
+    protected $flashMessages = [];
 
     public function __construct(array $params){
         $this->setRouteParams($params);
@@ -43,6 +45,8 @@ abstract class AbstractController
 
     public function renderView()
     {
+        $this->processFlashMessages();
+
         if ($this->view) {
             extract($this->sanitize($this->data));
             extract($this->data, EXTR_PREFIX_ALL, "");
@@ -63,14 +67,17 @@ abstract class AbstractController
             $_SESSION[self::FLASH_MESSAGES_KEY] = array($message);
     }
 
-    protected static function getFlashMessages()
+    protected function processFlashMessages()
     {
         if (isset($_SESSION[self::FLASH_MESSAGES_KEY])) {
             $messages = $_SESSION[self::FLASH_MESSAGES_KEY];
             unset($_SESSION[self::FLASH_MESSAGES_KEY]);
-            return $messages;
-        } else
-            return array();
+            $this->flashMessages =  $messages;
+        }
+    }
+
+    protected function getFlashMessages(){
+        return $this->flashMessages;
     }
 
     protected function redirect($url = '')
