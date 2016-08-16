@@ -150,7 +150,7 @@ abstract class AbstractController
     }
 
     protected function getRouteParam($key, $undefinedValue = null){
-        if (array_key_exists($key, $this->routeParams)){
+        if (isset($this->routeParams[$key])){
             return $this->routeParams[$key];
         }
 
