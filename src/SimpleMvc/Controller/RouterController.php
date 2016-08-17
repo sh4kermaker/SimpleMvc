@@ -37,6 +37,8 @@ class RouterController extends AbstractController
 
     private function parseURL($url)
     {
+        global $staticPath;
+        $url = str_replace($staticPath, '', $url);
         $parsedUrl = parse_url($url);
         $parsedUrl["path"] = ltrim($parsedUrl["path"], "/");
         $parsedUrl["path"] = trim($parsedUrl["path"]);

@@ -220,4 +220,32 @@ abstract class AbstractController
         return null;
     }
 
+    public function url($controllerClassName, array $routeParams = [], array $getParams = [])
+    {
+        $url = $this->staticPath();
+        if (!empty($controllerClassName)){
+            $shortenedName = str_replace('Controller','',$controllerClassName);
+            $url .= camelCaseToDashes($shortenedName) . '/';
+        }
+        foreach ($routeParams as $routeParam){
+            $url .= $routeParam . '/';
+        }
+        $i = 0;
+        foreach ($getParams as $key => $value){
+            if ($i == 0){
+                $url .= '?';
+            } else {
+                $url .= '&';
+            }
+            $url .= $key . '=' . $value;
+            $i++;
+        }
+        return $url;
+    }
+
+    public function staticPath($pathToFile = '')
+    {
+        global $staticPath;
+        return $staticPath . $pathToFile;
+    }
 }
