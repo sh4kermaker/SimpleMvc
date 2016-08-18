@@ -82,16 +82,24 @@ abstract class AbstractController
 
     protected function redirect($url = '')
     {
+        global $staticPath;
+
         // if url not specified, redirect to same url
         if (empty($url)){
             $redirectUrl = $_SERVER['REQUEST_URI'];
         }
         // redirect to home
         else if ($url === '/'){
-            $redirectUrl = '/';
+            $redirectUrl = $staticPath;
+        }
+        else if(strpos($url, "/") == 0){
+            $redirectUrl = $url;
+        }
+        else if(strpos($url, "http://") != false){
+            $redirectUrl = $url;
         }
         else {
-            $redirectUrl = '/' . $url;
+            $redirectUrl = $staticPath . $url;
         }
 
         header("Location: $redirectUrl");
@@ -220,9 +228,19 @@ abstract class AbstractController
         return null;
     }
 
-    public function url($controllerClassName, array $routeParams = [], array $getParams = [])
+    public function url($controllerClassName, array $routeParams = [], array $getParams = [], $relative = false, $withHost = false)
     {
-        $url = $this->staticPath();
+        global $staticPath;
+
+        if ($relative && $withHost){
+            $relative = false;
+        }
+
+        $url = $withHost ? $_SERVER['HTTP_HOST'] : '';
+        $url .= $staticPath;
+        if($relative){
+            $url = substr($url, 1);
+        }
         if (!empty($controllerClassName)){
             $shortenedName = str_replace('Controller','',$controllerClassName);
             $url .= camelCaseToDashes($shortenedName) . '/';
