@@ -236,7 +236,7 @@ abstract class AbstractController
             $relative = false;
         }
 
-        $url = $withHost ? $_SERVER['HTTP_HOST'] : '';
+        $url = $withHost ? "//" .  $_SERVER['HTTP_HOST'] : '';
         $url .= $staticPath;
         if($relative){
             $url = substr($url, 1);
